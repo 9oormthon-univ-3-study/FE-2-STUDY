@@ -1,0 +1,37 @@
+name: "과제 제출"
+description: 2차 과제 작업 사항을 작성해주세요.
+title: "[ 이름 ] 2차 과제 제출"
+body:
+  - type: markdown
+    attributes:
+      value: |
+        작성 예시 : "[ 이름 ] 2차 과제 제출"
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐻 회원가입 폼 (React)
+  - type: markdown
+    attributes:
+      value: |
+        ### ✅ 요구사항
+        - [ ] autofocus
+        - [ ] 유효성 검사 로직
+        - [ ] 커스텀 에러 메세지
+        - [ ] 입력 확인 모달 창
+        - [ ] 폰트 사이즈 조절 버튼
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: 🔍 접근 방법
+      description: 고려하신 방법이나, 접근에 대해서 설명해주세요.
+      placeholder: 설명을 작성해주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: feat-image
+    attributes:
+      label: 📸 스크린샷
+      description: 완성 후 구현한 화면에 대한 스크린샷을 첨부해주세요.
+      placeholder: 스크린샷을 첨부해주세요.
+    validations:
+      required: false
