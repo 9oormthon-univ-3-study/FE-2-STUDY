@@ -6,19 +6,27 @@ body:
     attributes:
       value: |
         작성 예시 : "[ 이름 ] 2차 과제 제출"
-  - type: markdown
+  - type: input
+    id: feat-title
     attributes:
-      value: |
-        ## 🐻 회원가입 폼 (React)
-  - type: markdown
+      label : 🐻 회원가입 폼 (React)
+      description: 해당 과제를 수행하는 미르미의 이름을 작성해주세요.
+      placeholder: 이름을 작성해주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: feat-todo
     attributes:
+      label : ✅ 요구사항
+      description: 완성 후 요구사항을 체크해주세요.
       value: |
-        ### ✅ 요구사항
         - [ ] autofocus
         - [ ] 유효성 검사 로직
         - [ ] 커스텀 에러 메세지
         - [ ] 입력 확인 모달 창
         - [ ] 폰트 사이즈 조절 버튼
+    validations:
+      required: false
   - type: textarea
     id: reproduction
     attributes:
@@ -26,7 +34,7 @@ body:
       description: 고려하신 방법이나, 접근에 대해서 설명해주세요.
       placeholder: 설명을 작성해주세요.
     validations:
-      required: true
+      required: false
   - type: textarea
     id: feat-image
     attributes:
