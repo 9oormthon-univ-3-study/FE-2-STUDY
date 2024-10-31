@@ -104,7 +104,7 @@ function App() {
         className="form-wrapper"
         style={{
           fontSize: `${fontSize}px`,
-          padding: `${fontSize * 0.5}px`, // 폰트 크기에 비례한 padding
+          padding: `${fontSize * 0.5}px`,
         }}
       >
         <form
