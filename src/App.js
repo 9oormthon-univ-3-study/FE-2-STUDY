@@ -2,24 +2,29 @@ import { useEffect, useRef, useState } from "react";
 import "./App.css";
 
 function App() {
+  // 아이디, 비밀번호 상태
   const [form, setForm] = useState({
     id: "",
     password: "",
     passwordConfirm: "",
   });
 
+  // 에러 메시지 상태
   const [error, setError] = useState({
     id: "",
     password: "",
     passwordConfirm: "",
   });
 
+  // 폰트 사이즈 상태
   const [fontSize, setFontSize] = useState(16);
 
+  // 폰트 사이즈 변경
   useEffect(() => {
     document.documentElement.style.fontSize = `${fontSize}px`;
   }, [fontSize]);
 
+  // dialog Ref
   const dialogRef = useRef(null);
 
   // 정규표현식
@@ -59,16 +64,19 @@ function App() {
     return errorMsg;
   };
 
+  // input change 이벤트
   const handleChange = (e) => {
     const { id, value } = e.target;
     setForm({ ...form, [id]: value });
   };
 
+  // input out focus 이벤트
   const handleBlur = (e) => {
     const { id, value } = e.target;
     setError({ ...error, [id]: validCheck(id, value) });
   };
 
+  // 가입하기 버튼 이벤트
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -84,22 +92,25 @@ function App() {
     }
   };
 
+  // 모달 - 가입하기
   const handleModalShow = () => {
     alert("가입되었습니다 🥳");
     dialogRef.current.close();
   };
 
+  // 모달 - 취소하기
   const handleModalClose = () => {
     dialogRef.current.close();
   };
 
-  // 폰트 사이즈 조절
+  // 폰트 사이즈 증가
   const increaseFontSize = () => {
     if (fontSize < 20) {
       setFontSize(fontSize + 1);
     }
   };
 
+  // 폰트 사이즈 감소
   const decreaseFontSize = () => {
     if (fontSize > 12) {
       setFontSize(fontSize - 1);
