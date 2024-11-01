@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
 
 function App() {
@@ -14,11 +14,14 @@ function App() {
     passwordConfirm: "",
   });
 
+  const dialogRef = useRef(null);
+
   // 정규표현식
   const ID_REGEX = /^[a-z0-9_-]{5,20}$/;
   const PWD_REGEX = /^[a-zA-Z0-9]{8,16}$/;
 
-  const valid = (field, value) => {
+  // 유효성 검사
+  const validCheck = (field, value) => {
     let errorMsg = "";
 
     switch (field) {
@@ -51,7 +54,31 @@ function App() {
 
   const handleBlur = (e) => {
     const { id, value } = e.target;
-    setError({ ...error, [id]: valid(id, value) });
+    setError({ ...error, [id]: validCheck(id, value) });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const idError = validCheck("id", form.id);
+    const passwordError = validCheck("password", form.password);
+    const passwordConfirmError = validCheck(
+      "passwordConfirm",
+      form.passwordConfirm
+    );
+
+    if (!idError && !passwordError && !passwordConfirmError) {
+      dialogRef.current.show();
+    }
+  };
+
+  const handleModalShow = () => {
+    alert("가입되었습니다 🥳");
+    dialogRef.current.close();
+  };
+
+  const handleModalClose = () => {
+    dialogRef.current.close();
   };
 
   return (
@@ -61,6 +88,7 @@ function App() {
           id="form"
           className="w-full max-w-md m-auto bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4"
           autoComplete="off"
+          onSubmit={handleSubmit}
         >
           <div className="mb-4">
             <label
@@ -152,7 +180,11 @@ function App() {
           -
         </button>
       </aside>
-      <dialog id="modal" className="rounded-lg shadow-xl text-left">
+      <dialog
+        ref={dialogRef}
+        id="modal"
+        className="rounded-lg shadow-xl text-left"
+      >
         <div className="w-full rounded-lg">
           <div className="p-6 mt-3">
             <h3 className="text-lg leading-6 font-medium text-gray-900">
@@ -161,11 +193,15 @@ function App() {
             <div className="text-left">
               <div className="mt-2">
                 아이디
-                <p id="confirm-id" className="text-sm text-blue-500 bold"></p>
+                <p id="confirm-id" className="text-sm text-blue-500 bold">
+                  {form.id}
+                </p>
               </div>
               <div className="mt-2">
                 비밀번호
-                <p id="confirm-pw" className="text-sm text-blue-500 bold"></p>
+                <p id="confirm-pw" className="text-sm text-blue-500 bold">
+                  {form.password}
+                </p>
               </div>
             </div>
           </div>
@@ -174,6 +210,7 @@ function App() {
               id="cancel-btn"
               type="button"
               className="bg-white text-gray-700 border border-gray-300 hover:bg-gray-50 font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-500 mr-2"
+              onClick={handleModalClose}
             >
               취소하기
             </button>
@@ -181,6 +218,7 @@ function App() {
               id="approve-btn"
               type="button"
               className="border border-transparent bg-blue-400 hover:bg-blue-500 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline disabled:bg-gray-500"
+              onClick={handleModalShow}
             >
               가입하기
             </button>
