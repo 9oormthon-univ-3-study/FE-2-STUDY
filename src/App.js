@@ -1,6 +1,59 @@
+import { useState } from "react";
 import "./App.css";
 
 function App() {
+  const [form, setForm] = useState({
+    id: "",
+    password: "",
+    passwordConfirm: "",
+  });
+
+  const [error, setError] = useState({
+    id: "",
+    password: "",
+    passwordConfirm: "",
+  });
+
+  // 정규표현식
+  const ID_REGEX = /^[a-z0-9_-]{5,20}$/;
+  const PWD_REGEX = /^[a-zA-Z0-9]{8,16}$/;
+
+  const valid = (field, value) => {
+    let errorMsg = "";
+
+    switch (field) {
+      case "id":
+        if (!ID_REGEX.test(value)) {
+          errorMsg =
+            "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
+        }
+        break;
+      case "password":
+        if (!PWD_REGEX.test(value)) {
+          errorMsg = "8~16자 영문 대 소문자, 숫자를 사용하세요.";
+        }
+        break;
+      case "passwordConfirm":
+        if (value !== form.password) {
+          errorMsg = "비밀번호가 일치하지 않습니다.";
+        }
+        break;
+      default:
+        break;
+    }
+    return errorMsg;
+  };
+
+  const handleChange = (e) => {
+    const { id, value } = e.target;
+    setForm({ ...form, [id]: value });
+  };
+
+  const handleBlur = (e) => {
+    const { id, value } = e.target;
+    setError({ ...error, [id]: valid(id, value) });
+  };
+
   return (
     <>
       <section className="form-wrapper">
@@ -20,10 +73,15 @@ function App() {
               id="id"
               className="shadow border rounded w-full py-2 px-3 text-gray-700"
               type="text"
-              autoFocus
               placeholder="아이디를 입력해주세요."
+              value={form.id}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoFocus
             />
-            <div id="id-msg" className="mt-1 mb-3 text-xs text-red-500"></div>
+            <div id="id-msg" className="mt-1 mb-3 text-xs text-red-500">
+              {error.id}
+            </div>
           </div>
           <div className="mb-4">
             <label
@@ -33,13 +91,18 @@ function App() {
               비밀번호
             </label>
             <input
-              id="pw"
+              id="password"
               type="password"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-2 leading-tight"
               placeholder="비밀번호를 입력해주세요"
+              value={form.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
               autoComplete="off"
             />
-            <div id="pw-msg" className="mt-1 mb-3 text-xs text-red-500"></div>
+            <div id="pw-msg" className="mt-1 mb-3 text-xs text-red-500">
+              {error.password}
+            </div>
           </div>
           <div className="mb-6">
             <label
@@ -49,16 +112,18 @@ function App() {
               비밀번호 확인
             </label>
             <input
-              id="pw-check"
+              id="passwordConfirm"
               type="password"
               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight"
               placeholder="비밀번호 확인을 입력해주세요."
               autoComplete="off"
+              value={form.passwordConfirm}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            <div
-              id="pw-check-msg"
-              className="mt-1 mb-3 text-xs text-red-500"
-            ></div>
+            <div id="pw-check-msg" className="mt-1 mb-3 text-xs text-red-500">
+              {error.passwordConfirm}
+            </div>
           </div>
           <div className="flex items-center justify-center">
             <input
