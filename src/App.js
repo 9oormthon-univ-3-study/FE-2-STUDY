@@ -32,18 +32,24 @@ function App() {
 
     switch (field) {
       case "id":
-        if (!ID_REGEX.test(value)) {
+        if (!value) {
+          errorMsg = "필수 정보입니다.";
+        } else if (!ID_REGEX.test(value)) {
           errorMsg =
             "5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.";
         }
         break;
       case "password":
-        if (!PWD_REGEX.test(value)) {
+        if (!value) {
+          errorMsg = "필수 정보입니다.";
+        } else if (!PWD_REGEX.test(value)) {
           errorMsg = "8~16자 영문 대 소문자, 숫자를 사용하세요.";
         }
         break;
       case "passwordConfirm":
-        if (value !== form.password) {
+        if (!value) {
+          errorMsg = "필수 정보입니다.";
+        } else if (value !== form.password) {
           errorMsg = "비밀번호가 일치하지 않습니다.";
         }
         break;
